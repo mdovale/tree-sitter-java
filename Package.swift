@@ -1,4 +1,5 @@
 // swift-tools-version:5.3
+
 import PackageDescription
 
 let package = Package(
@@ -7,21 +8,47 @@ let package = Package(
         .library(name: "TreeSitterJava", targets: ["TreeSitterJava"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ChimeHQ/SwiftTreeSitter", from: "0.8.0"),
+        .package(name: "SwiftTreeSitter", url: "https://github.com/tree-sitter/swift-tree-sitter", from: "0.9.0"),
     ],
     targets: [
         .target(
             name: "TreeSitterJava",
             dependencies: [],
             path: ".",
+            exclude: [
+                "binding.gyp",
+                "bindings/c",
+                "bindings/go",
+                "bindings/node",
+                "bindings/python",
+                "bindings/rust",
+                "Cargo.toml",
+                "Cargo.lock",
+                "CMakeLists.txt",
+                "eslint.config.mjs",
+                "go.mod",
+                "go.sum",
+                "grammar.js",
+                "LICENSE",
+                "Makefile",
+                "package-lock.json",
+                "package.json",
+                "pyproject.toml",
+                "README.md",
+                "setup.py",
+                "src/grammar.json",
+                "src/node-types.json",
+                "test",
+                "tree-sitter.json",
+            ],
             sources: [
                 "src/parser.c",
             ],
             resources: [
-                .copy("queries")
+                .copy("queries"),
             ],
             publicHeadersPath: "bindings/swift",
-            cSettings: [.headerSearchPath("src")]
+            cSettings: [.headerSearchPath("src")],
         ),
         .testTarget(
             name: "TreeSitterJavaTests",
@@ -29,8 +56,8 @@ let package = Package(
                 "SwiftTreeSitter",
                 "TreeSitterJava",
             ],
-            path: "bindings/swift/TreeSitterJavaTests"
-        )
+            path: "bindings/swift/TreeSitterJavaTests",
+        ),
     ],
-    cLanguageStandard: .c11
+    cLanguageStandard: .c11,
 )
